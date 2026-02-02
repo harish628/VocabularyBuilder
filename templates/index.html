@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Builder - Word Meanings</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <i class="fas fa-book-open"></i>
+                    <h1>Vocabulary Builder</h1>
+                </div>
+                <p class="subtitle">Learn & Store Word Meanings in English & Telugu</p>
+            </div>
+        </header>
+
+        <!-- Main Container -->
+        <div class="container">
+            <!-- Left Side - Form -->
+            <div class="left-section">
+                <div class="form-card">
+                    <div class="form-header">
+                        <h2><i class="fas fa-pen-fancy"></i> Add New Word</h2>
+                        <p>Fill in the details to add a word to your vocabulary</p>
+                    </div>
+
+                    <form id="vocabForm" class="vocab-form">
+                        <!-- Word Input -->
+                        <div class="form-group">
+                            <label for="word">
+                                <span class="label-icon"><i class="fas fa-font"></i></span>
+                                Word
+                            </label>
+                            <input 
+                                type="text" 
+                                id="word" 
+                                name="word" 
+                                placeholder="e.g., Persistence"
+                                required
+                                class="form-input"
+                            >
+                            <span class="char-count"><span id="wordCount">0</span>/50</span>
+                        </div>
+
+                        <!-- English Meaning -->
+                        <div class="form-group">
+                            <label for="english_meaning">
+                                <span class="label-icon"><i class="fas fa-language"></i></span>
+                                English Meaning
+                            </label>
+                            <textarea 
+                                id="english_meaning" 
+                                name="english_meaning" 
+                                placeholder="Enter the meaning in English..."
+                                required
+                                class="form-textarea"
+                                rows="3"
+                            ></textarea>
+                            <span class="char-count"><span id="engCount">0</span>/200</span>
+                        </div>
+
+                        <!-- Telugu Meaning -->
+                        <div class="form-group">
+                            <label for="telugu_meaning">
+                                <span class="label-icon"><i class="fas fa-language"></i></span>
+                                Telugu Meaning
+                            </label>
+                            <textarea 
+                                id="telugu_meaning" 
+                                name="telugu_meaning" 
+                                placeholder="తెలుగు అర్థం..."
+                                required
+                                class="form-textarea"
+                                rows="3"
+                            ></textarea>
+                            <span class="char-count"><span id="telCount">0</span>/200</span>
+                        </div>
+
+                        <!-- Examples -->
+                        <div class="form-group">
+                            <label for="examples">
+                                <span class="label-icon"><i class="fas fa-lightbulb"></i></span>
+                                Examples
+                            </label>
+                            <textarea 
+                                id="examples" 
+                                name="examples" 
+                                placeholder="Enter examples (press Enter for new line)..."
+                                required
+                                class="form-textarea"
+                                rows="4"
+                            ></textarea>
+                            <span class="char-count"><span id="exCount">0</span>/300</span>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="button-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-check-circle"></i> Save Word
+                            </button>
+                            <button type="reset" class="btn btn-secondary">
+                                <i class="fas fa-redo"></i> Clear Form
+                            </button>
+                        </div>
+
+                        <!-- Message -->
+                        <div id="message" class="message-box"></div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right Side - Document Viewer -->
+            <div class="right-section">
+                <div class="document-card">
+                    <div class="document-header">
+                        <h2><i class="fas fa-file-lines"></i> Vocabulary Document</h2>
+                        <div class="button-group-small">
+                            <button id="refreshBtn" class="btn-icon" title="Refresh">
+                                <i class="fas fa-rotate-right"></i>
+                            </button>
+                            <button id="downloadBtn" class="btn-icon" title="Download">
+                                <i class="fas fa-download"></i>
+                            </button>
+                            <button id="clearBtn" class="btn-icon btn-danger" title="Clear All">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="documentContent" class="document-content">
+                        <div class="loading">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p>Loading vocabulary document...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('vocabForm');
+            const messageDiv = document.getElementById('message');
+            const documentContent = document.getElementById('documentContent');
+            const refreshBtn = document.getElementById('refreshBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const clearBtn = document.getElementById('clearBtn');
+
+            // Load document on page load
+            loadDocument();
+
+            // Character counters
+            document.getElementById('word').addEventListener('input', function() {
+                document.getElementById('wordCount').textContent = this.value.length;
+            });
+            document.getElementById('english_meaning').addEventListener('input', function() {
+                document.getElementById('engCount').textContent = this.value.length;
+            });
+            document.getElementById('telugu_meaning').addEventListener('input', function() {
+                document.getElementById('telCount').textContent = this.value.length;
+            });
+            document.getElementById('examples').addEventListener('input', function() {
+                document.getElementById('exCount').textContent = this.value.length;
+            });
+
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const formData = new FormData(form);
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalHTML = submitBtn.innerHTML;
+
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+                submitBtn.disabled = true;
+
+                fetch('/add_word', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showMessage(data.message, 'success');
+                        form.reset();
+                        document.getElementById('wordCount').textContent = '0';
+                        document.getElementById('engCount').textContent = '0';
+                        document.getElementById('telCount').textContent = '0';
+                        document.getElementById('exCount').textContent = '0';
+                        setTimeout(() => loadDocument(), 500);
+                    } else {
+                        showMessage(data.message, 'error');
+                    }
+                })
+                .catch(error => {
+                    showMessage('Error: ' + error, 'error');
+                })
+                .finally(() => {
+                    submitBtn.innerHTML = originalHTML;
+                    submitBtn.disabled = false;
+                });
+            });
+
+            // Refresh button
+            refreshBtn.addEventListener('click', function() {
+                const icon = this.querySelector('i');
+                icon.classList.add('fa-spin');
+                loadDocument();
+                setTimeout(() => {
+                    icon.classList.remove('fa-spin');
+                }, 800);
+            });
+
+            // Download button
+            downloadBtn.addEventListener('click', function() {
+                const icon = this.querySelector('i');
+                const originalClass = icon.className;
+                icon.className = 'fas fa-spinner fa-spin';
+
+                window.location.href = '/download_document';
+
+                setTimeout(() => {
+                    icon.className = originalClass;
+                }, 1000);
+            });
+
+            // Clear button
+            clearBtn.addEventListener('click', function() {
+                if (confirm('⚠️ Are you sure? This will delete ALL vocabulary entries!\nThis action cannot be undone.')) {
+                    const icon = this.querySelector('i');
+                    const originalClass = icon.className;
+                    icon.className = 'fas fa-spinner fa-spin';
+
+                    fetch('/clear_document', {
+                        method: 'POST'
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            showMessage(data.message, 'success');
+                            setTimeout(() => loadDocument(), 500);
+                        } else {
+                            showMessage(data.message, 'error');
+                        }
+                    })
+                    .catch(error => {
+                        showMessage('Error: ' + error, 'error');
+                    })
+                    .finally(() => {
+                        icon.className = originalClass;
+                    });
+                }
+            });
+
+            // Load document function
+            function loadDocument() {
+                documentContent.innerHTML = `
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading...</p>
+                    </div>
+                `;
+
+                fetch('/view_document')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.content && data.content.trim().length > 0) {
+                            const lines = data.content.split('\n');
+                            let html = '<div class="document-text">';
+                            
+                            lines.forEach(line => {
+                                if (line.includes('VOCABULARY DOCUMENT')) {
+                                    html += `<div class="doc-title">${line}</div>`;
+                                } else if (line.startsWith('Created on:')) {
+                                    html += `<div class="doc-meta">${line}</div>`;
+                                } else if (line.startsWith('┌') || line.startsWith('├') || line.startsWith('└') || line.startsWith('│')) {
+                                    html += `<div class="doc-line">${line}</div>`;
+                                } else if (line.trim().length > 0) {
+                                    html += `<div class="doc-line">${line}</div>`;
+                                } else {
+                                    html += '<div class="doc-spacer"></div>';
+                                }
+                            });
+                            
+                            html += '</div>';
+                            documentContent.innerHTML = html;
+                        } else {
+                            documentContent.innerHTML = `
+                                <div class="empty-state">
+                                    <i class="fas fa-book-open"></i>
+                                    <p>No words added yet</p>
+                                    <small>Start by adding your first word using the form on the left</small>
+                                </div>
+                            `;
+                        }
+                    })
+                    .catch(error => {
+                        documentContent.innerHTML = `
+                            <div class="error-state">
+                                <i class="fas fa-exclamation-circle"></i>
+                                <p>Error loading document</p>
+                            </div>
+                        `;
+                    });
+            }
+
+            // Show message function
+            function showMessage(text, type) {
+                messageDiv.innerHTML = `
+                    <div class="message ${type}">
+                        <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                        <span>${text}</span>
+                    </div>
+                `;
+                messageDiv.style.display = 'block';
+
+                setTimeout(() => {
+                    messageDiv.style.display = 'none';
+                }, 4000);
+            }
+        });
+    </script>
+</body>
+</html>

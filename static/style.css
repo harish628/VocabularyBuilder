@@ -1,0 +1,589 @@
+/* ============================================
+   VOCABULARY BUILDER - MODERN DESIGN
+   ============================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #667eea;
+    --secondary-color: #764ba2;
+    --success-color: #48bb78;
+    --danger-color: #f56565;
+    --warning-color: #ed8936;
+    --light-bg: #f7fafc;
+    --text-dark: #2d3748;
+    --text-light: #718096;
+    --border-color: #e2e8f0;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+html, body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: var(--text-dark);
+}
+
+.wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ============================================
+   HEADER STYLES
+   ============================================ */
+
+.header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+    box-shadow: var(--shadow);
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.logo-section i {
+    font-size: 3rem;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.logo-section h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    opacity: 0.95;
+    margin-top: 8px;
+    font-weight: 300;
+}
+
+/* ============================================
+   CONTAINER & LAYOUT
+   ============================================ */
+
+.container {
+    flex: 1;
+    max-width: 1400px;
+    margin: 30px auto;
+    padding: 0 20px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+@media (max-width: 1024px) {
+    .container {
+        grid-template-columns: 1fr;
+        margin: 20px auto;
+    }
+}
+
+/* ============================================
+   FORM CARD STYLES
+   ============================================ */
+
+.form-card {
+    background: white;
+    border-radius: 16px;
+    padding: 35px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+}
+
+.form-header {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.form-header h2 {
+    color: var(--text-dark);
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.form-header h2 i {
+    color: var(--primary-color);
+    font-size: 1.9rem;
+}
+
+.form-header p {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+/* ============================================
+   FORM GROUP STYLES
+   ============================================ */
+
+.form-group {
+    margin-bottom: 22px;
+    position: relative;
+}
+
+.form-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-dark);
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.label-icon {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+}
+
+.form-input,
+.form-textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    transition: all 0.3s ease;
+    resize: vertical;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-textarea {
+    min-height: 80px;
+    line-height: 1.5;
+}
+
+.char-count {
+    position: absolute;
+    top: 35px;
+    right: 0;
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+
+/* ============================================
+   BUTTON STYLES
+   ============================================ */
+
+.button-group,
+.button-group-small {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.button-group-small {
+    margin-top: 0;
+}
+
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex: 1;
+    min-height: 44px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-secondary {
+    background: var(--light-bg);
+    color: var(--text-dark);
+    border: 2px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background: rgba(102, 126, 234, 0.05);
+}
+
+.btn-icon {
+    padding: 10px 12px;
+    border: none;
+    background: var(--light-bg);
+    color: var(--primary-color);
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    border: 2px solid var(--border-color);
+}
+
+.btn-icon:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: scale(1.05);
+}
+
+.btn-icon.btn-danger {
+    color: var(--danger-color);
+}
+
+.btn-icon.btn-danger:hover {
+    background: var(--danger-color);
+    border-color: var(--danger-color);
+    color: white;
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+/* ============================================
+   MESSAGE BOX STYLES
+   ============================================ */
+
+.message-box {
+    margin-top: 20px;
+    min-height: 50px;
+    display: none;
+}
+
+.message {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    font-weight: 500;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message.success {
+    background: rgba(72, 187, 120, 0.1);
+    color: #22543d;
+    border-left: 4px solid var(--success-color);
+}
+
+.message.success i {
+    color: var(--success-color);
+    font-size: 1.3rem;
+}
+
+.message.error {
+    background: rgba(245, 101, 101, 0.1);
+    color: #742a2a;
+    border-left: 4px solid var(--danger-color);
+}
+
+.message.error i {
+    color: var(--danger-color);
+    font-size: 1.3rem;
+}
+
+/* ============================================
+   DOCUMENT CARD STYLES
+   ============================================ */
+
+.document-card {
+    background: white;
+    border-radius: 16px;
+    padding: 0;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    max-height: 800px;
+}
+
+.document-header {
+    padding: 25px 30px;
+    border-bottom: 2px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.document-header h2 {
+    color: var(--text-dark);
+    font-size: 1.6rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+}
+
+.document-header h2 i {
+    color: var(--primary-color);
+    font-size: 1.8rem;
+}
+
+.document-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 25px;
+}
+
+.document-text {
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text-dark);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.doc-line {
+    margin-bottom: 4px;
+    color: var(--text-dark);
+    padding: 2px 0;
+}
+
+.doc-title {
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 15px 0 8px 0;
+    font-size: 1.1rem;
+}
+
+.doc-meta {
+    color: var(--text-light);
+    font-size: 0.85rem;
+    margin-bottom: 15px;
+    font-style: italic;
+}
+
+.doc-spacer {
+    height: 8px;
+}
+
+/* ============================================
+   EMPTY & LOADING STATES
+   ============================================ */
+
+.empty-state,
+.error-state,
+.loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 300px;
+    color: var(--text-light);
+}
+
+.empty-state i,
+.error-state i,
+.loading i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+
+.loading i {
+    color: var(--primary-color);
+}
+
+.empty-state p,
+.error-state p,
+.loading p {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 5px 0;
+    color: var(--text-dark);
+}
+
+.empty-state small,
+.error-state small,
+.loading small {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+/* ============================================
+   SCROLLBAR STYLING
+   ============================================ */
+
+.document-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.document-content::-webkit-scrollbar-track {
+    background: var(--light-bg);
+}
+
+.document-content::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+}
+
+.document-content::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-color);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 768px) {
+    .header {
+        padding: 30px 15px;
+    }
+
+    .logo-section h1 {
+        font-size: 2rem;
+    }
+
+    .logo-section i {
+        font-size: 2.2rem;
+    }
+
+    .subtitle {
+        font-size: 0.95rem;
+    }
+
+    .container {
+        gap: 20px;
+        margin: 15px auto;
+    }
+
+    .form-card,
+    .document-card {
+        padding: 25px;
+        border-radius: 12px;
+    }
+
+    .form-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+        flex: unset;
+    }
+
+    .document-card {
+        max-height: 600px;
+    }
+
+    .document-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .button-group-small {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo-section {
+        flex-direction: column;
+    }
+
+    .logo-section h1 {
+        font-size: 1.6rem;
+    }
+
+    .logo-section i {
+        font-size: 2rem;
+    }
+
+    .form-card,
+    .document-card {
+        padding: 18px;
+    }
+
+    .form-header h2 {
+        font-size: 1.3rem;
+    }
+
+    .form-header p {
+        font-size: 0.85rem;
+    }
+
+    .btn {
+        font-size: 0.85rem;
+        padding: 10px 16px;
+    }
+
+    .document-content {
+        padding: 15px;
+    }
+
+    .document-text {
+        font-size: 0.8rem;
+    }
+}
