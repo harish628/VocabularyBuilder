@@ -1,0 +1,19 @@
+
+================================================================================
+PERSISTENCE
+----------------------------------------
+       Meaning (English): 
+           Persistence means continuing to do something steadily, even when it’s difficult or takes a long time.
+       
+       Meaning (Telugu): 
+           స్థిరత్వం, పట్టుదల, అచంచలమైన ప్రయత్నం
+       
+       Examples:
+           1. She achieved her goals through persistence, despite many failures.
+
+           2. Persistence in practice helps you master any skill.
+
+           3. Persistence refers to saving data so it remains available even after the system restarts (data persistence).
+
+================================================================================
+
