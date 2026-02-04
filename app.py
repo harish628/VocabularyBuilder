@@ -28,6 +28,21 @@ def read_vocabulary():
     except Exception as e:
         return f"Error reading file: {str(e)}"
 
+def word_exists(word):
+    """Check if word already exists in vocabulary"""
+    try:
+        content = read_vocabulary()
+        # Convert word to uppercase for case-insensitive comparison
+        word_upper = word.upper()
+        
+        # Look for the word in the format: "\n{WORD}\n" to avoid partial matches
+        if f"\n{word_upper}\n" in content:
+            return True
+        
+        return False
+    except Exception as e:
+        return False
+
 def save_vocabulary(word, english_meaning, telugu_meaning, examples):
     """Save new vocabulary entry to file"""
     try:
@@ -86,6 +101,15 @@ def add_word():
         
         if not word:
             return jsonify({'success': False, 'message': 'Word is required!'})
+        
+        # Check if word already exists
+        if word_exists(word):
+            return jsonify({
+                'success': False, 
+                'message': f'⚠️ The word "{word}" already exists in your vocabulary! No changes made.',
+                'word_exists': True
+            })
+        
         if not english_meaning:
             return jsonify({'success': False, 'message': 'English meaning is required!'})
         if not telugu_meaning:

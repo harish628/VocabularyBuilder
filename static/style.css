@@ -347,6 +347,17 @@ html, body {
     font-size: 1.3rem;
 }
 
+.message.warning {
+    background: rgba(237, 137, 54, 0.1);
+    color: #7c2d12;
+    border-left: 4px solid var(--warning-color);
+}
+
+.message.warning i {
+    color: var(--warning-color);
+    font-size: 1.3rem;
+}
+
 /* ============================================
    DOCUMENT CARD STYLES
    ============================================ */
